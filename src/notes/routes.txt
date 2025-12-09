@@ -1,0 +1,11 @@
+when we creates the routes, the order of routes are matter.
+in the url if you tyoe localhost:3000/about, you still see the response of the / route only , if we keep the / route as in the first place. because after the / everything becomes wild card.if you check /about/123/xyz. you can still see the same response. even though this route does not exist. so keep in mind that, order of the routes are matter, don't keep the / route in the first place.
+
+
+#installed postman to test our first API
+
+=> we installed the postman, and created a new workspace for the namaste node.
+=>create a new collection, then create a http request. hit enter. successfully tested the get request through postman.
+
+=>we can create a different http methods with the same route name. initially we use app.use(). it can handle all the http methods.
+=>but if we want to specifically call a method we need to use app.get(),app.post()etc..
