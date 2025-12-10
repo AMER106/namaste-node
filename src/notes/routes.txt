@@ -9,3 +9,13 @@ in the url if you tyoe localhost:3000/about, you still see the response of the /
 
 =>we can create a different http methods with the same route name. initially we use app.use(). it can handle all the http methods.
 =>but if we want to specifically call a method we need to use app.get(),app.post()etc..
+
+
+#handling multiple route handlers 
+=> we can write multiple handler functions with in a single route.
+=> but make sure to understand the how the code is executing, we can only send one respond to the client. we can not send multiple responses from multiple handler request.
+=>we must have to send the response to the client, if we don't send the response to the client request, it's keep hanging.
+
+##writing middlwares.....
+what is middleware?
+middleware is just a normalk handler function , which will handle the routes before sending the response to the clients.
