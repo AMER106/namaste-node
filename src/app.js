@@ -1,17 +1,14 @@
 import express from "express";
 const app = express();
-import { auth, user } from "./middlewares/auth.js";
+import { connectDB } from "./config/db.js";
 
-app.use("/admin", auth, (req, res) => {
-  res.send("Welcome to admin panel");
-});
-app.use("/user/profile", user, (req, res) => {
-  res.send("Welcome to user profile");
-});
-app.use("/user/login", (req, res) => {
-  res.send("User login page");
-});
-
-app.listen(3001, () => {
-  console.log("server is runnning on port 3001");
-});
+connectDB()
+  .then(() => {
+    console.log("DB connected successfully");
+    app.listen(3001, () => {
+      console.log("server is runnning on port 3001");
+    });
+  })
+  .catch((err) => {
+    console.log("DB connection failed", err);
+  });

@@ -19,3 +19,15 @@ in the url if you tyoe localhost:3000/about, you still see the response of the /
 ##writing middlwares.....
 what is middleware?
 middleware is just a normalk handler function , which will handle the routes before sending the response to the clients.
+=> we talked about the importance of next().
+and order of the arguments in the hanler function is also important. if there are 2 arguments(req,res) if there are 3 (req,res,next) if there are 4 (err,req,res,next)
+=> ERROR handling
+=> we generally handles the errors in try and catch block. in the most cases , we use next(err) in the catch block, and global error handler function will take care about this error. and we must have to passed the err argument in the end handler function, becuase, express check for the err argument in the fucntion, if it sees in any fucntion handling, it may give improper response.
+
+
+#creating a database connection.
+1) go to mongodb website
+2) create a free M0 cluster
+3) create a user
+4) get the connection string
+5)install mongodb compass
