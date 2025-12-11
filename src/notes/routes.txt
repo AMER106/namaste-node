@@ -31,3 +31,13 @@ and order of the arguments in the hanler function is also important. if there ar
 3) create a user
 4) get the connection string
 5)install mongodb compass
+
+#installed mongoose and created a schema and model 
+1) with the help of npm i mongoose 
+2)once installed the mongoose, create a separate folder called models in src folder.
+3)create a file like user.just
+4)import mongoose from 'mongoose'
+5)if you get stuck follow mongoose documentation to create the schemas.
+6) once successfully creating the schema now we need to create a model.
+7) with the help of mongoose.model("User", schema name) and export it. 
+8) done now u created the schema  and model.
