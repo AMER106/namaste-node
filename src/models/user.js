@@ -1,19 +1,15 @@
 import mongoose from "mongoose";
-import { number } from "zod";
-const { schema } = mongoose;
-const userSchema = new schema({
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
   firstName: {
-    type: string,
-    requierd: true,
+    type: String,
+    required: true,
+    trim: true,
   },
-  lastName: {
-    type: string,
-  },
-  age: {
-    type: number,
-  },
-  gender: {
-    type: string,
-  },
+  lastName: { type: String, trim: true },
+  age: { type: Number, min: 0 },
+  gender: { type: String },
 });
+
 export const User = mongoose.model("User", userSchema);

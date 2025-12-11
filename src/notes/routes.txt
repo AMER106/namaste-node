@@ -41,3 +41,8 @@ and order of the arguments in the hanler function is also important. if there ar
 6) once successfully creating the schema now we need to create a model.
 7) with the help of mongoose.model("User", schema name) and export it. 
 8) done now u created the schema  and model.
+
+#Now it's time send some data to the databse. it's not a produciton level way. just to understand the basics.
+1)we must have to create the schema in the models folder.
+2)import the model into the app.js file as of now
+3)once imported created an instance of user object and save the new object and send the response to the user.
