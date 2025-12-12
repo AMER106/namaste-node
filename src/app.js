@@ -3,14 +3,13 @@ const app = express();
 import { connectDB } from "./config/db.js";
 import { User } from "./models/user.js";
 
+app.use(express.json());
+
 app.post("/signup", async (req, res) => {
-  const newUser = new User({
-    firstName: "mustafa",
-    lastName: "mohd",
-    age: 26,
-    gender: "male",
-  });
+  console.log(req.body);
+
   try {
+    const newUser = new User(req.body);
     await newUser.save();
     res.send("User created successfully");
   } catch (err) {

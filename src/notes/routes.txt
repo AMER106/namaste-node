@@ -46,3 +46,23 @@ and order of the arguments in the hanler function is also important. if there ar
 1)we must have to create the schema in the models folder.
 2)import the model into the app.js file as of now
 3)once imported created an instance of user object and save the new object and send the response to the user.
+
+
+#it's time to send dynamic data to the signup api.
+how do we send the dynamic data with out hardcoding?
+:> we can send the dynamic data with the help of end user, it might be postman or browser whatever. but as of now we are using postman.
+:> the upper body is the request and bottom one is the response we can see.
+:> we need to make  sure ourself what we are doing, we are sending the data or receiving the data or updating the data or deleting the data.
+:> depending upon the scenerio we need keep our http method.
+:> once it is selected , select the body if we are using post. and keep it raw.
+:> there is a difference between javascript object and json object.
+:> js objects are key value pair, and in json keys must be string.
+;>once we click send we get the response what we send in the endpoint.
+:>just remove your hardcoded data and print console.log(req);
+:>u can see a lot of things which u don't know.
+:> but our main concern is to see our data, which is present in the body.
+:> so we do console.log(req.body);\
+;> but we see undefined in the console. why?
+:> we are sending a json but js objects are different.
+:>so we use app.use(express.json()) midleware, which will help us to see the json data in js object.
+:> now we can see our data in the console.
