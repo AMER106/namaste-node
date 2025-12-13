@@ -66,3 +66,6 @@ how do we send the dynamic data with out hardcoding?
 :> we are sending a json but js objects are different.
 :>so we use app.use(express.json()) midleware, which will help us to see the json data in js object.
 :> now we can see our data in the console.
+
+#now it's time write more few API's
+:>we write get user firstName api and get all the users , and get findById.

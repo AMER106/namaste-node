@@ -17,6 +17,40 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+//get fistName user
+app.get("/user", async (req, res) => {
+  try {
+    const firstName = req.body.firstName;
+    console.log(firstName);
+    const firstNames = await User.findOne({ firstName: firstName });
+    console.log(firstNames);
+    res.json(firstNames);
+  } catch (err) {
+    res.status(500).send("Error fetching user");
+  }
+});
+//get all users from the db
+
+app.get("/feed", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).send("Error fetching users");
+  }
+});
+
+app.get("/find", async (req, res) => {
+  try {
+    const id = req.body._id;
+    console.log(id);
+    const users = await User.findById({ _id: id });
+    res.json(users);
+  } catch (err) {
+    res.status(500).send("Error fetching user by ID");
+  }
+});
+
 connectDB()
   .then(() => {
     console.log("DB connected successfully");
