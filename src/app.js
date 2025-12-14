@@ -39,6 +39,15 @@ app.get("/feed", async (req, res) => {
     res.status(500).send("Error fetching users");
   }
 });
+app.delete("/delete-user", async (req, res) => {
+  try {
+    const id = req.body._id;
+    const result = await User.deleteOne({ _id: id });
+    res.json(result);
+  } catch (err) {
+    res.status(500).send("Error deleting user");
+  }
+});
 
 app.get("/find", async (req, res) => {
   try {

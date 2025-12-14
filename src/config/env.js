@@ -2,6 +2,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import dotenv from "dotenv";
+dotenv.config();
 // Import Zod for schema validation
 import zod from "zod";
 
