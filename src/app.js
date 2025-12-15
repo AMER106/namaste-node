@@ -59,6 +59,31 @@ app.get("/find", async (req, res) => {
     res.status(500).send("Error fetching user by ID");
   }
 });
+//update the user
+
+app.patch("/update", async (req, res) => {
+  const id = req.body._id;
+  const data = req.body;
+  try {
+    const result = await User.findOneAndUpdate({ _id: id }, data);
+    res.send("user updates successfully");
+  } catch (err) {
+    res.status(500).send("Error updating user");
+  }
+});
+//update the user with email ID
+
+app.patch("/update-email", async (req, res) => {
+  try {
+    const emailId = req.body.emailId;
+    const data = req.body;
+    const result = await User.findOneAndUpdate({ emailId: emailId }, data);
+    res.send("user updated successfully", result);
+  } catch (err) {
+    User.find;
+    res.send("Error updating user by email ID");
+  }
+});
 
 connectDB()
   .then(() => {

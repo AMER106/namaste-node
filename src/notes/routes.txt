@@ -69,3 +69,7 @@ how do we send the dynamic data with out hardcoding?
 
 #now it's time write more few API's
 :>we write get user firstName api and get all the users , and get findById.
+:> now we need to update the user details, we have 2 methods in the Model to update the userdetails.
+:> one id findOneAndUpdate and findByIdAndUpdate.
+ :> we can use both, but if we want to specifically update the user with id , we use findByIdAndUpdate , or if we want to update the user with any one of the field, we can use findOneAndUpdate.
+ :> to know more visit mongoose docs.
