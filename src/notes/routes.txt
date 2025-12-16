@@ -75,4 +75,8 @@ how do we send the dynamic data with out hardcoding?
  :> to know more visit mongoose docs.
 
  #we added the restrictions in the Userschema,
- 
+ Why Is Schema Validation Important?
+Data Integrity: Ensures incoming requests meet predefined structures and data types.
+Security: Prevents injection attacks and other malicious inputs.
+Error Handling: Helps return meaningful error messages to clients.
+Scalability: Simplifies onboarding new developers by defining clear API contracts.

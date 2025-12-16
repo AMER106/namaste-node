@@ -61,16 +61,38 @@ app.get("/find", async (req, res) => {
 });
 //update the user
 
-app.patch("/update", async (req, res) => {
-  const id = req.body._id;
+app.patch("/update/:userId", async (req, res) => {
+  const { userId } = req.params;
   const data = req.body;
+
   try {
-    const result = await User.findOneAndUpdate({ _id: id }, data);
-    res.send("user updates successfully");
+    const { emailId: email } = req.body;
+    //if user  is trying to update email id, we shoud throw an error
+    if (email) {
+      return res.status(400).json({ message: "Email ID cannot be updated" });
+    }
+
+    const result = await User.findOneAndUpdate({ _id: userId }, data, {
+      new: true, // return updated document
+      runValidators: true, // run schema validations
+    });
+
+    if (!result) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User updated successfully",
+      user: result,
+    });
   } catch (err) {
-    res.status(500).send("Error updating user");
+    res.status(500).json({
+      message: "Error updating user",
+      error: err.message,
+    });
   }
 });
+
 //update the user with email ID
 
 app.patch("/update-email", async (req, res) => {
