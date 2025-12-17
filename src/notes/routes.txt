@@ -85,3 +85,9 @@ Scalability: Simplifies onboarding new developers by defining clear API contract
 we can also use joi librabry.
 #most of the apps which are built on node js , uses zod library for the validations, which is more safer than the other libraries.
 it's better to use both mongoose and zod together to make the app fully safe.
+
+
+*never trust the request. body and first validate the inputs before saving the data, and save only the required fields only in data.
+:> it means instead of saving const user=newUser(req.body) we are saving only the required fields like const user=newUser({firstName,lastName,emailId,password:hashedPasssword})
+
+#we created the login api.

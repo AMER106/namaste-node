@@ -25,7 +25,23 @@ app.post("/signup", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
-
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("invalid email or password");
+    }
+    const isPassword = await bcrypt.compare(password, user.password);
+    if (!isPassword) {
+      throw new Error("invalid email or password");
+    }
+    // res.send("login successful", user);
+    res.json({ message: "Login successful", user });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 //get fistName user
 app.get("/user", async (req, res) => {
   try {
