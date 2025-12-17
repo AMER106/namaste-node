@@ -80,3 +80,6 @@ Data Integrity: Ensures incoming requests meet predefined structures and data ty
 Security: Prevents injection attacks and other malicious inputs.
 Error Handling: Helps return meaningful error messages to clients.
 Scalability: Simplifies onboarding new developers by defining clear API contracts.
+
+#installed the validator library for schema validation and api level validation.
+we can also use joi librabry.

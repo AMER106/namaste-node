@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import validator from "validator";
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -48,10 +48,12 @@ const userSchema = new Schema({
     required: [true, "Email is required"],
     unique: true, // creates a unique index
     lowercase: true, // converts to lowercase
-    trim: true, // removes spaces
-    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email address"],
-    minlength: [5, "Email is too short"],
-    maxlength: [254, "Email is too long"],
+    trim: true, // removes space
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error("Invalid email format");
+      }
+    },
   },
 });
 
