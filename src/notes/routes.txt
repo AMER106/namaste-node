@@ -83,3 +83,5 @@ Scalability: Simplifies onboarding new developers by defining clear API contract
 
 #installed the validator library for schema validation and api level validation.
 we can also use joi librabry.
+#most of the apps which are built on node js , uses zod library for the validations, which is more safer than the other libraries.
+it's better to use both mongoose and zod together to make the app fully safe.
