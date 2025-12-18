@@ -63,5 +63,13 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
-
+// Automatically remove sensitive fields when converting to JSON
+userSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.password;
+    delete ret.__v; // optional: remove version key
+    // delete ret.anyOtherSensitiveField;
+    return ret;
+  },
+});
 export const User = mongoose.model("User", userSchema);

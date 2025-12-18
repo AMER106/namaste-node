@@ -2,16 +2,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-// Import Zod for schema validation
 import zod from "zod";
 
-/* ENVIRONMENT VARIABLES SCHEMA
-   - We use Zod to ensure all required
-     environment variables are present
-     and properly formatted.
-   - If anything is missing or invalid,
-     the app will stop immediately.
-*/
 const envSchema = zod.object({
   // PORT (optional) → defaults to 5000
 

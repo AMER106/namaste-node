@@ -4,7 +4,10 @@ import { connectDB } from "./config/db.js";
 import { User } from "./models/user.js";
 import { validateSignupData } from "./utils/validation.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
+app.use(cookieParser());
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
@@ -35,9 +38,12 @@ app.post("/login", async (req, res) => {
     const isPassword = await bcrypt.compare(password, user.password);
     if (!isPassword) {
       throw new Error("invalid email or password");
+    } else {
+      const token = await jwt.sign({ _id: user._id }, "DEVSECRET");
+      res.cookie("token", token);
+      res.json({ message: "Login successful", user });
     }
     // res.send("login successful", user);
-    res.json({ message: "Login successful", user });
   } catch (err) {
     res.status(500).send(err.message);
   }
@@ -73,7 +79,26 @@ app.delete("/delete-user", async (req, res) => {
     res.status(500).send("Error deleting user");
   }
 });
-
+app.get("/profile", async (req, res) => {
+  try {
+    const cookies = req.cookies;
+    const { token } = cookies;
+    if (!token) {
+      return res.status(401).send("Unauthorized: No token provided");
+    }
+    // validate the token
+    const decodedMessage = await jwt.verify(token, "DEVSECRET");
+    const { _id } = decodedMessage;
+    console.log(_id);
+    const user = await User.findById({ _id });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.send(user);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 app.get("/find", async (req, res) => {
   try {
     const id = req.body._id;
