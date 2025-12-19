@@ -6,6 +6,7 @@ import { validateSignupData } from "./utils/validation.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import { auth } from "./middlewares/auth.js";
 
 app.use(cookieParser());
 app.use(express.json());
@@ -31,24 +32,44 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
-    const user = await User.findOne({ emailId: emailId });
-    if (!user) {
-      throw new Error("invalid email or password");
+    if (!emailId || !password) {
+      return res.status(400).json({ message: "Email and password required" });
     }
-    const isPassword = await bcrypt.compare(password, user.password);
-    if (!isPassword) {
-      throw new Error("invalid email or password");
-    } else {
-      const token = await jwt.sign({ _id: user._id }, "DEVSECRET");
-      res.cookie("token", token);
-      res.json({ message: "Login successful", user });
+
+    const user = await User.findOne({ emailId });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-    // res.send("login successful", user);
+
+    const token = jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET || "DEVSECRETKEY",
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    res.cookie("Bearer", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    const safeUser = {
+      _id: user._id,
+      name: user.name,
+      emailId: user.emailId,
+      // add only needed fields
+    };
+
+    res.status(200).json({ message: "Login successful", user: safeUser });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
-//get fistName user
+//get firstName user
 app.get("/user", async (req, res) => {
   try {
     const firstName = req.body.firstName;
@@ -79,24 +100,13 @@ app.delete("/delete-user", async (req, res) => {
     res.status(500).send("Error deleting user");
   }
 });
-app.get("/profile", async (req, res) => {
+app.get("/profile", auth, async (req, res) => {
   try {
-    const cookies = req.cookies;
-    const { token } = cookies;
-    if (!token) {
-      return res.status(401).send("Unauthorized: No token provided");
-    }
-    // validate the token
-    const decodedMessage = await jwt.verify(token, "DEVSECRET");
-    const { _id } = decodedMessage;
-    console.log(_id);
-    const user = await User.findById({ _id });
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-    res.send(user);
+    // req.user is already attached by the auth middleware
+    const user = req.user;
+    res.status(200).json(user); // better to use .json()
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json({ message: err.message || "Server error" });
   }
 });
 app.get("/find", async (req, res) => {
