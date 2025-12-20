@@ -152,7 +152,6 @@ app.patch("/update/:userId", async (req, res) => {
     });
   }
 });
-
 //update the user with email ID
 
 app.patch("/update-email", async (req, res) => {
