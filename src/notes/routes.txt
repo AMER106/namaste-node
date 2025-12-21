@@ -91,3 +91,22 @@ it's better to use both mongoose and zod together to make the app fully safe.
 :> it means instead of saving const user=newUser(req.body) we are saving only the required fields like const user=newUser({firstName,lastName,emailId,password:hashedPasssword})
 
 #we created the login api.
+#Using jwt token
+#first we need to install a library jwtwebtoken and cookie-parser.
+:> we need to import both in our app.js file
+:>then app.use(cookieParser());
+with the help of jwt.signupconst token = jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET || "DEVSECRETKEY",
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    res.cookie("Bearer", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    
