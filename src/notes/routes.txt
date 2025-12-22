@@ -110,3 +110,4 @@ with the help of jwt.signupconst token = jwt.sign(
       maxAge: 24 * 60 * 60 * 1000,
     });
     
+    as well as we created a auth  middleware to verify the token before accessing the private routes.
