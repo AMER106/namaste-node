@@ -72,4 +72,17 @@ userSchema.set("toJSON", {
     return ret;
   },
 });
+userSchema.methods.getJWT = async function () {
+  const user = this;
+  const token = await jwt.sign({ _id: user._id.toString() }, "DEVSECRETKEY", {
+    expiresIn: "7 days",
+  });
+  return token;
+};
+userSchema.methods.validatePassword = async function (password) {
+  const user = this;
+  const passwordHash = user.password;
+  const isPasswordVallid = await bcrypt.compare(password, passwordHash);
+  return isPasswordVallid;
+};
 export const User = mongoose.model("User", userSchema);

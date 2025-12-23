@@ -37,18 +37,12 @@ app.post("/login", async (req, res) => {
     }
 
     const user = await User.findOne({ emailId });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    const isPasswordValid = await user.validatePassword(password);
+    if (!user || !isPasswordValid) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign(
-      { _id: user._id },
-      process.env.JWT_SECRET || "DEVSECRETKEY",
-      {
-        expiresIn: "1d",
-      }
-    );
-
+    const token = await user.getJWT();
     res.cookie("Bearer", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
