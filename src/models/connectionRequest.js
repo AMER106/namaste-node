@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { required } from "zod/mini";
 
 const connectionRequestSchema = new mongoose.Schema(
   {
@@ -16,7 +15,7 @@ const connectionRequestSchema = new mongoose.Schema(
       required: true,
       enum: {
         values: ["ignore", "interested", "accepted", "rejected"],
-        message: `{VALUE``} is not supported `,
+        message: `{VALUE} is not supported `,
       },
     },
   },
@@ -24,6 +23,13 @@ const connectionRequestSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+connectionRequestSchema.index({ fromUserId: 1, toUserId: 1 }, { unique: true });
+connectionRequestSchema.pre("save", function () {
+  const connectionRequest = this;
+  if (connectionRequest.fromUserId.equals(connectionRequest.toUserId)) {
+    return next(new Error("fromUserId and toUserId cannot be the same"));
+  }
+});
 
 export const ConnectionRequest = mongoose.model(
   "ConnectionRequest",
