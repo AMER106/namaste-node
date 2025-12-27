@@ -27,7 +27,7 @@ connectionRequestSchema.index({ fromUserId: 1, toUserId: 1 }, { unique: true });
 connectionRequestSchema.pre("save", function () {
   const connectionRequest = this;
   if (connectionRequest.fromUserId.equals(connectionRequest.toUserId)) {
-    return next(new Error("fromUserId and toUserId cannot be the same"));
+    return new Error("fromUserId and toUserId cannot be the same");
   }
 });
 
