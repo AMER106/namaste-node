@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt"; // ← add this
 import { User } from "../models/user.js";
-import cookieParser from "cookie-parser"; // only needed if you use it here (optional)
+
 import { validateSignupData } from "../utils/validation.js";
 
 export const authRouter = express.Router(); // ← use Router directly
@@ -70,4 +70,12 @@ authRouter.post("/signup", async (req, res) => {
     }
     res.status(500).json({ message: "Internal server error" });
   }
+});
+
+authRouter.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.json({ message: "Logged out successfully" });
 });
