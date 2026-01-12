@@ -1,8 +1,8 @@
 import express from "express";
-import { auth } from "../middlewares/auth";
-import { ConnectionRequest } from "../models/connectionRequest";
+import { auth } from "../middlewares/auth.js";
+import { ConnectionRequest } from "../models/connectionRequest.js";
 export const userRouter = express.Router();
-import { User } from "../models/user";
+import { User } from "../models/user.js";
 userRouter.get("/user/requests/received", auth, async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
